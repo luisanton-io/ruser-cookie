@@ -33,10 +33,10 @@ app.get('/api/ruserid', (req, res) => {
     res.json({ uuid: _uuid })
 })
 
-app.listen(8080, (err) => {
+app.listen(process.env.PORT, (err) => {
     if (err) {
         console.log(err)
         return
     }
-    console.log('Listening on port 8080')
+    console.log(`Listening on port ${process.env.PORT}`)
 })
