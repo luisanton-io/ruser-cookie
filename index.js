@@ -8,29 +8,33 @@ const whitelist = [
 ]
 const corsOptions = {
     origin: function (origin, callback) {
-      if (whitelist.indexOf(origin) !== -1) {
-        callback(null, true)
-      } else {
-        callback(new Error('Not allowed by CORS'))
-      }
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
     }
-  }
+}
 
 app.use(cors(corsOptions))
 app.use(express.json())
 app.get('/api/ruserid', (req, res) => {
-    const _uuid = uuid()
-    res.cookie('ruserid', _uuid, {
-        maxAge: 1000 * 60 * 60 * 24 * 30,
-        path: '/',
-        domain: '.reasonsecurity.com',
-        sameSite: 'None',
-        httpOnly: true,
-        secure: true,
-    })
+    try {
+        const _uuid = uuid()
+        res.cookie('ruserid', _uuid, {
+            maxAge: 1000 * 60 * 60 * 24 * 30,
+            path: '/',
+            domain: '.reasonsecurity.com',
+            sameSite: 'None',
+            httpOnly: true,
+            secure: true,
+        })
 
-    // res.status(204).send()
-    res.json({ uuid: _uuid })
+        // res.status(204).send()
+        res.json({ uuid: _uuid })
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
 })
 
 app.listen(process.env.PORT, (err) => {
