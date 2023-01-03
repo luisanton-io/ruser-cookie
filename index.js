@@ -20,8 +20,8 @@ app.use(cors(corsOptions))
 app.use(express.json())
 app.get('/api/ruserid', (req, res) => {
     try {
-        const _uuid = uuid()
-        res.cookie('ruserid', _uuid, {
+        const ruserid = uuid()
+        res.cookie('ruserid', ruserid, {
             maxAge: 1000 * 60 * 60 * 24 * 30,
             path: '/',
             domain: '.reasonsecurity.com',
@@ -31,7 +31,7 @@ app.get('/api/ruserid', (req, res) => {
         })
 
         // res.status(204).send()
-        res.json({ uuid: _uuid })
+        res.json({ ruserid })
     } catch (error) {
         res.status(500).send(error.message)
     }
